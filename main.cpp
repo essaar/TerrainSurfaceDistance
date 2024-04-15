@@ -171,7 +171,8 @@ std::pair<float, float> calculateDistancebyIntersections(glm::vec4 bounds)
         (y < bounds[MaxY]) ? y++ : yBound++;
         glm::vec2 endPt (yBound, y);
 
-        std::cout<<"\n("<<startPt.x<<", "<<startPt.y<<") "<<"("<<endPt.x<<", "<<endPt.y<<") "<<std::endl;
+        // FOR DEBUGGING
+        // std::cout<<"\n("<<startPt.x<<", "<<startPt.y<<") "<<"("<<endPt.x<<", "<<endPt.y<<") "<<std::endl;
 
         std::pair<bool, glm::vec2> intersection = getIntersection(startPt, endPt, startCoord, endCoord);
         if(intersection.first == true && withinBounds(intersection.second, bounds))
@@ -181,14 +182,16 @@ std::pair<float, float> calculateDistancebyIntersections(glm::vec4 bounds)
         }
     }
 
-    // Insert last piece of distance with end coordinate -> giving NAN results coz some intersection points missing :(
+    // Insert last piece of distance with end coordinate
+        //-> giving NAN results coz some intersection points missing which mess up final calculations :(
     // float lastDist = glm::length(intersectionPtsbyDist.end()->second - endCoord);
     // intersectionPtsbyDist.insert(std::pair<float, glm::vec2> (lastDist, endCoord));
 
-    for (auto const& [key, val] : intersectionPtsbyDist)
-    {
-        std::cout << "" << key << ": (" << val.x << ", " << val.y << ")" << std::endl;
-    }
+    // FOR DEBUGGING
+    // for (auto const& [key, val] : intersectionPtsbyDist)
+    // {
+    //     std::cout << "" << key << ": (" << val.x << ", " << val.y << ")" << std::endl;
+    // }
 
     // Calculate height at each point of intersection
     // then calculate distace bewteen consecutive intersection points along the surface
@@ -200,8 +203,8 @@ std::pair<float, float> calculateDistancebyIntersections(glm::vec4 bounds)
 
         glm::vec2 pt2 = val;
 
-        //do things
-        std::cout << "(" << pt1.x << ", " << pt1.y << ") : (" << pt2.x << ", " << pt2.y << ")" << std::endl;
+        // FOR DEBUGGING
+        // std::cout << "(" << pt1.x << ", " << pt1.y << ") : (" << pt2.x << ", " << pt2.y << ")" << std::endl;
 
         glm::vec2 neighbor1 = glm::vec2(glm::ceil(pt2.x), glm::floor(pt2.y));
         glm::vec2 neighbor2 = glm::vec2(glm::floor(pt2.x), glm::ceil(pt2.y));
@@ -303,7 +306,7 @@ int main()
             totSurfDistPost = distances.second;
         }
 
-        std::cout<<"\nSurface distance from point A("<<startCoord.x<<", "<<startCoord.y<<") and point B("<<endCoord.x<<", "<<endCoord.y<<") is as follows:"<<std::endl;
+        std::cout<<"Surface distance from point A("<<startCoord.x<<", "<<startCoord.y<<") and point B("<<endCoord.x<<", "<<endCoord.y<<") is as follows:"<<std::endl;
         std::cout<<"\nPre-eruption = "<<totSurfDistPre<<"m"<<std::endl;
         std::cout<<"\nPost-eruption = "<<totSurfDistPost<<"m"<<std::endl;
         std::cout<<"\nDifference = "<<(totSurfDistPost - totSurfDistPre)<<"m"<<std::endl;
